@@ -6,19 +6,18 @@
 	.global _start
 
 _write:
-	push	%rcx
+	push	%rcx		    # stack register-register
 	movl    $len,%edx           # third argument: message length
 	movl    $msg,%ecx           # second argument: pointer to message to write
 	movl    $1,%ebx             # first argument: file handle (stdout)
 	movl    $4,%eax             # system call number (sys_write)
 	int     $0x80               # call kernel
-	pop	%rcx
+	pop	%rcx		    # restore register-context
 
 _loop:
-	dec	%ecx
-	cmp	$0, %ecx
-	jz	_exit
-	call	_write
+	dec	%ecx		    # decrement register
+	jz	_exit		    # jump to exit if register is zero
+	call	_write		    # loop to _write
 	
 _exit:
 
